@@ -28,25 +28,7 @@ const CustomerListToolbar = (props) => {
   }
   return(
   <Box {...props}>
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'flex-end'
-      }}
-    >
-      <Button>
-        Import
-      </Button>
-      <Button sx={{ mx: 1 }}>
-        Export
-      </Button>
-      <Button
-        color="primary"
-        variant="contained"
-      >
-        Add customer
-      </Button>
-    </Box>
+    
     <Box sx={{ mt: 3 }}>
       <Card>
         <CardContent>
@@ -57,7 +39,10 @@ const CustomerListToolbar = (props) => {
                   >
                     設定時間
                   </Typography>
-            
+            <Box sx={{
+        display: 'flex',
+        justifyContent: 'flex-end'
+      }}>
             <TextField
     id="date"
     label="開始"
@@ -69,6 +54,7 @@ const CustomerListToolbar = (props) => {
       shrink: true,
     }}
   />
+  <Box sx={{ mx: 7 }}></Box>
   <TextField
     id="date"
     label="結束"
@@ -80,6 +66,7 @@ const CustomerListToolbar = (props) => {
       shrink: true,
     }}
   />
+  </Box>
           </Box>
         </CardContent>
       </Card>

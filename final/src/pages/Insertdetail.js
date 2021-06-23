@@ -22,7 +22,7 @@ const Insertdetail = () => {
   useContext(AppContext);
   const [selectid, setSelectid] = useState([]);
   const [inselectid, insetSelectid] = useState('');
-  
+  const [visual, setVisual] = useState('');
   const doinert=(value)=>{
 
   console.log( selectid.proid)
@@ -112,14 +112,14 @@ const Insertdetail = () => {
                     color="textPrimary"
                     variant="h2"
                   >
-                    Create new account
+                    建立清單資訊
                   </Typography>
                   <Typography
                     color="textSecondary"
                     gutterBottom
                     variant="body2"
                   >
-                    Use your email to create new account
+                    Enter productID
                   </Typography>
                 </Box>
                 <Autocomplete
@@ -127,6 +127,11 @@ const Insertdetail = () => {
           inputValue={inselectid}
           onChange={(event, selectid) => {
             setSelectid(selectid);
+            try {
+              setVisual(selectid.proname)
+            } catch (error) {
+              setVisual("")
+            }
           }}
           onInputChange={(event, inselectid) => {
             insetSelectid(inselectid);
@@ -136,9 +141,17 @@ const Insertdetail = () => {
   options={product}
   getOptionLabel={(option) => option.proid}
   //style={{ width: 300 }}
-  renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
+  renderInput={(params) => <TextField {...params} label="產品ID" variant="outlined" />}
 />
-                
+<Box sx={{ mt: 3 }}>
+                <Typography
+                    color="textSecondary"
+                    gutterBottom
+                    variant="body2"
+                  >
+                    產品名稱:{visual}
+                  </Typography>
+                  </Box>               
 <TextField
                   error={Boolean(touched.qty && errors.qty)}
                   fullWidth

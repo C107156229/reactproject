@@ -1,5 +1,6 @@
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import {
@@ -15,8 +16,11 @@ import {
 import { useState,useContext } from 'react';
 import { AppContext } from "../Context";
 const Insertorder = () => {
+  const [selectid, setSelectid] = useState([]);
+  const [inselectid, insetSelectid] = useState('');
+  const [visual, setVisual] = useState('');
   const navigate = useNavigate();
-  const {product,inserProduct,useravatar,salesorder,insertorder} =
+  const {product,inserProduct,useravatar,salesorder,insertorder,allcust} =
   useContext(AppContext);
 
   console.log()
@@ -27,11 +31,12 @@ const Insertorder = () => {
     const pro=
       {empid : useravatar.id,
         orderid:inorderid,
-      custid : value.custid,
+      custid : selectid.custid,
       orderdate:a.toISOString().substring(0, 10),
       descript : value.descript,}
     
       //inserProduct(pro)
+      console.log(selectid)
       insertorder(pro)
     
   }
@@ -72,13 +77,13 @@ const Insertorder = () => {
             initialValues={{
 
              
-              custid:"aaa123",
+              
               descript:"",
               policy: false
             }}
             validationSchema={
               Yup.object().shape({
-                custid: Yup.string().required('custid is required'),
+                //custid: Yup.string().required('custid is required'),
                // firstName: Yup.string().required('First name is required'),
                // email: Yup.number().required('Email is required'),
                 
@@ -107,29 +112,46 @@ const Insertorder = () => {
                     color="textPrimary"
                     variant="h2"
                   >
-                    Create new account
+                    Create new order
                   </Typography>
                   <Typography
                     color="textSecondary"
                     gutterBottom
                     variant="body2"
                   >
-                    Use your email to create new account
+                    Use your custid to create new order
                   </Typography>
                 </Box>
-                
-                <TextField
-                  error={Boolean(touched.lastName && errors.lastName)}
-                  fullWidth
-                  helperText={touched.lastName && errors.lastName}
-                  label="顧客代號"
-                  margin="normal"
-                  name="custid"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.custid}
-                  variant="outlined"
-                />
+                <Autocomplete
+          value={selectid}
+          inputValue={inselectid}
+          onChange={(event, selectid) => {
+            setSelectid(selectid);
+            try {
+              setVisual(selectid.custname)
+            } catch (error) {
+              setVisual("")
+            }
+          }}
+          onInputChange={(event, inselectid) => {
+            insetSelectid(inselectid);
+          }}
+          fullWidth
+  id="combo-box-demo"
+  options={allcust}
+  getOptionLabel={(option) => option.custid}
+  //style={{ width: 300 }}
+  renderInput={(params) => <TextField {...params} label="顧客代號" variant="outlined" />}
+/>
+<Box sx={{ mt: 3 }}>
+                <Typography
+                    color="textSecondary"
+                    gutterBottom
+                    variant="body2"
+                  >
+                    顧客名稱:{visual}
+                  </Typography>
+                  </Box>
                 <TextField
                   error={Boolean(touched.email && errors.email)}
                   fullWidth
